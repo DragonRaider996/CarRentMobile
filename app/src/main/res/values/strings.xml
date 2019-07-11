@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CarRent</string>
+    <string name="signup">Dont have an account? <u>Register here!!</u></string>
 </resources>
