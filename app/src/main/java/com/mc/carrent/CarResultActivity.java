@@ -111,17 +111,11 @@ public class CarResultActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int position) {
                     index = position;
-                }
-            });
-            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
             dialog = builder.show();
             dialog.show();
-            dialog.setCanceledOnTouchOutside(false);
         }
         return super.onOptionsItemSelected(item);
     }

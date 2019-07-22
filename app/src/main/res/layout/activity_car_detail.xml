@@ -182,13 +182,14 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:text="Book Now"
+            android:textColor="@color/colorAccent"
             android:id="@+id/buttonCarDetail"
-            android:layout_gravity="bottom"
-            style="@style/UnelevatedButton"/>
+            android:layout_gravity="bottom" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

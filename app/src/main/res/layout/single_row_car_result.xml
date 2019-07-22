@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="Book Now"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
                 app:layout_constraintLeft_toLeftOf="@id/constraintImage"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textViewCarPrice"/>
