@@ -193,6 +193,7 @@
         android:text="Book Now"
         android:textColor="@color/colorAccent"
         android:id="@+id/buttonCarDetail"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"
+        android:onClick="bookNow"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

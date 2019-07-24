@@ -55,6 +55,12 @@ public class ListedCarRecyclerViewAdapter extends RecyclerView.Adapter<ListedCar
         holder.textViewPrice.setText(carPrice);
         holder.textViewModel.setText(car.getCarModel());
         holder.textViewStar.setText(carRating);
+        holder.buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ListedCarActivity)context).removeListedCar(position);
+            }
+        });
         final ImageLoader imageLoader = SingletonRequest.getInstance(context.getApplicationContext()).getImageLoader();
         imageLoader.get(imageUrl, new ImageLoader.ImageListener() {
             @Override

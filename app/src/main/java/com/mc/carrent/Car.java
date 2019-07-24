@@ -12,6 +12,7 @@ public class Car implements Serializable {
     private double lng;
     private String url;
     private String carDescription;
+    private boolean rated;
 
     public Car(int id, String carModel, double carRating, double price, double lat, double lng, String url, String carDescription) {
         this.id = id;
@@ -22,6 +23,14 @@ public class Car implements Serializable {
         this.lng = lng;
         this.carDescription = carDescription;
         this.url = url;
+    }
+
+    public boolean isRated() {
+        return rated;
+    }
+
+    public void setRated(boolean rated) {
+        this.rated = rated;
     }
 
     public String getUrl() {

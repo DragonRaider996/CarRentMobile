@@ -2,6 +2,7 @@ package com.mc.carrent;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -36,7 +37,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,15 +56,20 @@ public class CarResultActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     private double latitude,longitude;
     private ProgressBar progressBar;
+    private String from = null,to = null;
+    private ArrayList<Car> carArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_result);
+        from = getIntent().getStringExtra("from");
+        to = getIntent().getStringExtra("to");
         recyclerView = findViewById(R.id.recyclerViewCarResult);
         toolbar = findViewById(R.id.toolbarCarResult);
         progressBar = findViewById(R.id.progressBarCarResult);
         setSupportActionBar(toolbar);
+        carArrayList = new ArrayList<>();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +110,6 @@ public class CarResultActivity extends AppCompatActivity {
     }
 
     private ArrayList<Car> getCarList() {
-        ArrayList<Car> carArrayList = new ArrayList<>();
 //        Car car = new Car(1,"Model 1", 4.5, 23, 44.647491, -63.576211);
 //        Car car1 = new Car(2,"Model 2", 4.5, 25, 44.649093, -63.573144);
 //        Car car2 = new Car(3,"Model 3", 3.5, 33, 44.649460, -63.578699);
@@ -178,6 +186,24 @@ public class CarResultActivity extends AppCompatActivity {
         return carArrayList;
     }
 
+    public void bookNow(int position){
+        Car car = carArrayList.get(position);
+        Intent intent = new Intent(this,BookingHistoryActivity.class);
+        intent.putExtra("car", (Serializable) car);
+        intent.putExtra("from",from);
+        intent.putExtra("to",to);
+        startActivity(intent);
+    }
+
+    public void cardViewClick(int position){
+        Car car = carArrayList.get(position);
+        Intent intent = new Intent(this, CarDetailActivity.class);
+        intent.putExtra("car", (Serializable) car);
+        intent.putExtra("from",from);
+        intent.putExtra("to",to);
+        startActivity(intent);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -194,6 +220,7 @@ public class CarResultActivity extends AppCompatActivity {
             builder.setSingleChoiceItems(R.array.sort, index, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int position) {
+                    sortData(position);
                     index = position;
                     dialog.dismiss();
                 }
@@ -207,5 +234,72 @@ public class CarResultActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    public void sortData(int position){
+        if(position == 0){
+            Collections.sort(this.carArrayList, new Comparator<Car>() {
+                @Override
+                public int compare(Car o1, Car o2) {
+                    if(o1.getPrice() > o2.getPrice()){
+                        return 1;
+                    }else{
+                        return -1;
+                    }
+                }
+            });
+            recyclerViewAdapter.setData(carArrayList);
+        }else if(position == 1){
+            ArrayList<Integer> distances = getDistances();
+            Collections.sort(this.carArrayList, new Comparator<Car>() {
+                @Override
+                public int compare(Car o1, Car o2) {
+                    int index1 = carArrayList.indexOf(o1);
+                    int index2 = carArrayList.indexOf(o2);
+                    if(distances.get(index1) >= distances.get(index2)){
+                        return -1;
+                    }else{
+                        return 1;
+                    }
+                }
+            });
+            recyclerViewAdapter.setData(carArrayList);
+        }else{
+            Collections.sort(this.carArrayList, new Comparator<Car>() {
+                @Override
+                public int compare(Car o1, Car o2) {
+                    if(o1.getCarRating() > o2.getCarRating()){
+                        return 1;
+                    }else{
+                        return -1;
+                    }
+                }
+            });
+            recyclerViewAdapter.setData(carArrayList);
+        }
+    }
+
+    public ArrayList<Integer> getDistances(){
+        ArrayList<Integer> distances = new ArrayList<>();
+        for(int i=0; i<this.carArrayList.size();i++){
+            Car car = this.carArrayList.get(i);
+            double carLat = car.getLat();
+            double carLong = car.getLng();
+
+            double latDistance = Math.toRadians(latitude - carLat);
+            double lngDistance = Math.toRadians(longitude - carLong);
+
+            double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                    + Math.cos(Math.toRadians(latitude)) * Math.cos(Math.toRadians(carLat))
+                    * Math.sin(lngDistance / 2) * Math.sin(lngDistance / 2);
+
+            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            int distance = (int) (Math.round(6371000 * c));
+
+            distances.add(distance);
+
+        }
+        return distances;
     }
 }

@@ -32,19 +32,22 @@ public class CarDetailActivity extends AppCompatActivity {
     private TextView textViewCarDescription;
     private int MY_CALL_PERMISSION = 85;
     private double latitude, longitude;
-    private Car car;
+    private Car car = null;
+    private String from = null,to = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_detail);
+        from = getIntent().getStringExtra("from");
+        to = getIntent().getStringExtra("to");
+        car = (Car) getIntent().getSerializableExtra("car");
         toolbar = findViewById(R.id.toolbarCarDetail);
         cardViewPhone = findViewById(R.id.cardViewContactOwner);
         cardViewLocation = findViewById(R.id.cardViewLocation);
         imageView = findViewById(R.id.imageCarDetail);
         imageViewMaps = findViewById(R.id.imageViewMaps);
         textViewCarDescription = findViewById(R.id.textViewCarDetailDescription);
-        car = (Car) getIntent().getSerializableExtra("car");
         String url = car.getUrl();
         latitude = car.getLat();
         longitude = car.getLng();
@@ -134,4 +137,14 @@ public class CarDetailActivity extends AppCompatActivity {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
+    public void bookNow(View view){
+        Intent intent = new Intent(this,BookingHistoryActivity.class);
+        intent.putExtra("car",car);
+        intent.putExtra("from",from);
+        intent.putExtra("to",to);
+        startActivity(intent);
+    }
+
 }
+

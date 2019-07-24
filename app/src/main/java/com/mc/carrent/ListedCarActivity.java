@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,12 +35,16 @@ public class ListedCarActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ListedCarRecyclerViewAdapter recyclerViewAdapter;
     private ProgressBar progressBar;
+    private ArrayList<Car> carArrayList;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listed_car);
 
+        textView = findViewById(R.id.textViewListedCar);
+        textView.setVisibility(View.INVISIBLE);
         progressBar = findViewById(R.id.progressBarListedCar);
         toolbar = findViewById(R.id.toolbarListedCar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -49,8 +54,10 @@ public class ListedCarActivity extends AppCompatActivity {
             }
         });
 
+        carArrayList = new ArrayList<>();
+
         recyclerView = findViewById(R.id.recyclerViewListedCar);
-        ArrayList<Car> carArrayList = getCarList();
+        carArrayList = getCarList();
         recyclerViewAdapter = new ListedCarRecyclerViewAdapter(this, carArrayList);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -107,6 +114,11 @@ public class ListedCarActivity extends AppCompatActivity {
                 }
                 recyclerViewAdapter.setData(carArrayList);
 
+                if(carArrayList.size() == 0){
+                    textView.setVisibility(View.VISIBLE);
+                    textView.setText("No Car have been listed by you");
+                }
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -133,7 +145,15 @@ public class ListedCarActivity extends AppCompatActivity {
 
         return carArrayList;
 
+    }
 
+    public void removeListedCar(int position){
+        this.carArrayList.remove(position);
+        recyclerViewAdapter.setData(carArrayList);
+        if(this.carArrayList.size() == 0){
+            textView.setVisibility(View.VISIBLE);
+            textView.setText("No Car have been listed by you");
+        }
     }
 
 }
