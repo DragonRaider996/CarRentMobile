@@ -1,6 +1,7 @@
 package com.mc.carrent;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.NetworkError;
@@ -52,6 +54,15 @@ public class PreviousBookingRecyclerViewAdapter extends RecyclerView.Adapter<Pre
         String carPrice = "Price : " + car.getPrice() + "/day";
         String carRating = "Rating :" + car.getCarRating();
         String imageUrl = car.getUrl();
+        boolean rated = false;
+        rated = car.isRated();
+        if(rated){
+            holder.buttonCancel.setText("Car Rated");
+            holder.buttonCancel.setTextColor(ContextCompat.getColor(context,R.color.colorBlack));
+            holder.buttonCancel.setEnabled(false);
+        }else{
+            holder.buttonCancel.setText("Rate the car");
+        }
         holder.textViewPrice.setText(carPrice);
         holder.textViewModel.setText(car.getCarModel());
         holder.textViewStar.setText(carRating);
@@ -98,7 +109,7 @@ public class PreviousBookingRecyclerViewAdapter extends RecyclerView.Adapter<Pre
             textViewStar = itemView.findViewById(R.id.textViewStar);
             textViewPrice = itemView.findViewById(R.id.textViewCarPrice);
             buttonCancel = itemView.findViewById(R.id.btnSingleRow);
-            buttonCancel.setText("Rate the car");
+
 
         }
     }

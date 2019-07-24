@@ -18,7 +18,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 
 public class HomeFragment extends Fragment {
@@ -118,15 +117,15 @@ public class HomeFragment extends Fragment {
                     flag = flag + 1;
                 }
 
-                if(fromDate == 0 || fromMonth == 0 || fromYear == 0){
+                if (fromDate == 0 || fromMonth == 0 || fromYear == 0) {
                     Toast.makeText(getActivity(), "Please select from date", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     flag = flag + 1;
                 }
 
-                if(toDate == 0 || toMonth == 0 || toYear == 0){
+                if (toDate == 0 || toMonth == 0 || toYear == 0) {
                     Toast.makeText(getActivity(), "Please select to date", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     flag = flag + 1;
                 }
 
@@ -140,7 +139,17 @@ public class HomeFragment extends Fragment {
 
                 if (flag == 3) {
                     Intent intent = new Intent(getContext(), CarResultActivity.class);
-                    startActivity(intent);
+                    String from = fromDate + "/" + fromMonth + "/" + fromYear;
+                    String to = toDate + "/" + toMonth + "/" + toYear;
+
+                    long remainingDays = Math.round((float) (toCalendar.getTimeInMillis() - fromCalendar.getTimeInMillis()) / (24 * 60 * 60 * 1000));
+                    if (remainingDays < 0) {
+                        Toast.makeText(getActivity(), "Please select proper dates", Toast.LENGTH_SHORT).show();
+                    } else {
+                        intent.putExtra("from", from);
+                        intent.putExtra("to", to);
+                        startActivity(intent);
+                    }
                 }
             }
         });

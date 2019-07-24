@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,15 +40,22 @@ public class BookingHistoryActivity extends AppCompatActivity implements RatingD
     private Toolbar toolbar;
     private ProgressBar progressBar;
     private int carPosition = 0;
-    private ArrayList<Car> carArrayList;
+    private ArrayList<Car> carCurrentArrayList, previousCarList;
+    private Car car = null;
+    private String to = null, from = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_history);
 
+        from = getIntent().getStringExtra("from");
+        to = getIntent().getStringExtra("to");
+        car = (Car) getIntent().getSerializableExtra("car");
+
         progressBar = findViewById(R.id.progressBarBooking);
 
-        carArrayList = new ArrayList<>();
+        carCurrentArrayList = new ArrayList<>();
+        previousCarList = new ArrayList<>();
 
         toolbar = findViewById(R.id.toolbarBooking);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -60,12 +68,15 @@ public class BookingHistoryActivity extends AppCompatActivity implements RatingD
         currentBookingRecyclerView = findViewById(R.id.recyclerViewCurrentBooking);
         previousBookingRecyclerView = findViewById(R.id.recyclerViewPreviousBooking);
 
-        ArrayList<Car> carArrayList = getCarList();
-        currentBookingRecyclerViewAdapter = new CurrentBookingRecyclerViewAdapter(this,carArrayList);
+        if(car != null) {
+            carCurrentArrayList.add(car);
+        }
+        currentBookingRecyclerViewAdapter = new CurrentBookingRecyclerViewAdapter(this,carCurrentArrayList);
         currentBookingRecyclerView.setAdapter(currentBookingRecyclerViewAdapter);
         currentBookingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        previousBookingRecyclerViewAdapter = new PreviousBookingRecyclerViewAdapter(this,carArrayList);
+        previousCarList = getCarList();
+        previousBookingRecyclerViewAdapter = new PreviousBookingRecyclerViewAdapter(this,previousCarList);
         previousBookingRecyclerView.setAdapter(previousBookingRecyclerViewAdapter);
         previousBookingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -76,10 +87,10 @@ public class BookingHistoryActivity extends AppCompatActivity implements RatingD
 //        Car car1 = new Car("Model 2", 4.5, 25, 44.649093, -63.573144);
 //        Car car2 = new Car("Model 3", 3.5, 33, 44.649460, -63.578699);
 //        Car car3 = new Car("Model 4", 2.5, 44, 44.640613, -63.582478);
-//        carArrayList.add(car);
-//        carArrayList.add(car1);
-//        carArrayList.add(car2);
-//        carArrayList.add(car3);
+//        carCurrentArrayList.add(car);
+//        carCurrentArrayList.add(car1);
+//        carCurrentArrayList.add(car2);
+//        carCurrentArrayList.add(car3);
 
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Login", MODE_PRIVATE);
@@ -117,10 +128,10 @@ public class BookingHistoryActivity extends AppCompatActivity implements RatingD
                     }
 
                     Car car = new Car(id,carModel,4.5,price,latitude,longitude,imageUrl,carDescription);
-                    carArrayList.add(car);
+                    previousCarList.add(car);
 
                 }
-                previousBookingRecyclerViewAdapter.setData(carArrayList);
+                previousBookingRecyclerViewAdapter.setData(previousCarList);
 
             }
         }, new Response.ErrorListener() {
@@ -146,7 +157,8 @@ public class BookingHistoryActivity extends AppCompatActivity implements RatingD
         request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         SingletonRequest.getInstance(this.getApplicationContext()).addtoRequestQueue(request);
 
-        return carArrayList;
+
+        return previousCarList;
 
     }
 
@@ -166,6 +178,11 @@ public class BookingHistoryActivity extends AppCompatActivity implements RatingD
                 .show();
     }
 
+    public void removeBooking(int position){
+        this.carCurrentArrayList.remove(position);
+        currentBookingRecyclerViewAdapter.setData(carCurrentArrayList);
+    }
+
     @Override
     public void onNegativeButtonClicked() {
 
@@ -178,6 +195,13 @@ public class BookingHistoryActivity extends AppCompatActivity implements RatingD
 
     @Override
     public void onPositiveButtonClicked(int i, @NotNull String s) {
-        Toast.makeText(this, "You rated :"+i+" Car id: "+carArrayList.get(carPosition).getId(), Toast.LENGTH_SHORT).show();
+        Car car = previousCarList.get(carPosition);
+        previousCarList.remove(carPosition);
+        car.setRated(true);
+        previousCarList.add(carPosition,car);
+
+        previousBookingRecyclerViewAdapter.setData(previousCarList);
+
+        Toast.makeText(this, "You rated :"+i+" Car id: "+ previousCarList.get(carPosition).getId(), Toast.LENGTH_SHORT).show();
     }
 }

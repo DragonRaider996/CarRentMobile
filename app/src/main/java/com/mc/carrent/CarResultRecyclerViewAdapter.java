@@ -18,6 +18,7 @@ import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.google.android.material.button.MaterialButton;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -57,6 +58,19 @@ public class CarResultRecyclerViewAdapter extends RecyclerView.Adapter<CarResult
         holder.textViewPrice.setText(carPrice);
         holder.textViewModel.setText(car.getCarModel());
         holder.textViewStar.setText(carRating);
+        holder.materialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((CarResultActivity) context).bookNow(position);
+            }
+        });
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((CarResultActivity) context).cardViewClick(position);
+            }
+        });
 
         final ImageLoader imageLoader = SingletonRequest.getInstance(context.getApplicationContext()).getImageLoader();
         imageLoader.get(imageUrl, new ImageLoader.ImageListener() {
@@ -87,6 +101,7 @@ public class CarResultRecyclerViewAdapter extends RecyclerView.Adapter<CarResult
         protected ImageView imageView;
         protected TextView textViewModel,textViewStar,textViewPrice;
         protected CardView cardView;
+        protected MaterialButton materialButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,16 +110,7 @@ public class CarResultRecyclerViewAdapter extends RecyclerView.Adapter<CarResult
             textViewStar = itemView.findViewById(R.id.textViewStar);
             textViewPrice = itemView.findViewById(R.id.textViewCarPrice);
             cardView = itemView.findViewById(R.id.cardViewCarResult);
-
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Car car = carList.get(getAdapterPosition());
-                    Intent intent = new Intent(context, CarDetailActivity.class);
-                    intent.putExtra("car", (Serializable) car);
-                    context.startActivity(intent);
-                }
-            });
+            materialButton = itemView.findViewById(R.id.btnSingleRow);
         }
 
     }

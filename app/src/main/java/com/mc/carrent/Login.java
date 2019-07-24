@@ -121,7 +121,7 @@ public class Login extends AppCompatActivity {
                     } else {
                         String statuscode = String.valueOf(error.networkResponse.statusCode);
                         if (statuscode.equals("401")) {
-                            Toast.makeText(Login.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, "Invalid Credentials", Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.INVISIBLE);
                             materialButton.setText("Login");
                             materialButton.setEnabled(true);
