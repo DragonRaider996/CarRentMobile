@@ -1,19 +1,51 @@
 package com.mc.carrent;
 
-public class Car {
+import java.io.Serializable;
 
+public class Car implements Serializable {
+
+    private int id;
     private String carModel;
     private double carRating;
     private double price;
     private double lat;
     private double lng;
+    private String url;
+    private String carDescription;
 
-    public Car(String carModel, double carRating, double price, double lat, double lng) {
+    public Car(int id, String carModel, double carRating, double price, double lat, double lng, String url, String carDescription) {
+        this.id = id;
         this.carModel = carModel;
         this.carRating = carRating;
         this.price = price;
         this.lat = lat;
         this.lng = lng;
+        this.carDescription = carDescription;
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getCarDescription() {
+        return carDescription;
+    }
+
+    public void setCarDescription(String carDescription) {
+        this.carDescription = carDescription;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getLat() {
