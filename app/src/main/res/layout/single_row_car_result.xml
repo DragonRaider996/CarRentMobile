@@ -33,11 +33,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                android:id="@+id/imageViewCarImage"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="10dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/image"
+                android:src="@drawable/rent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="@id/constraintImage"
@@ -82,6 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="Book Now"
+                android:id="@+id/btnSingleRow"
                 android:textColor="@color/colorAccent"
                 app:layout_constraintLeft_toLeftOf="@id/constraintImage"
                 app:layout_constraintRight_toRightOf="parent"

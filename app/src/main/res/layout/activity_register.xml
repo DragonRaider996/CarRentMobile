@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="20dp"
                     android:hint="Enter your Email"
-                    android:inputType="text"
+                    android:inputType="textEmailAddress"
                     android:lines="1"
                     android:maxLines="1" />
 
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="20dp"
                     android:hint="Enter your Password"
-                    android:inputType="text"
+                    android:inputType="textPassword"
                     android:lines="1"
                     android:maxLines="1" />
 
@@ -118,14 +118,14 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="20dp"
                     android:hint="Enter your contact Number"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:lines="1"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/spinner"
+                android:id="@+id/textInputLayoutCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
@@ -158,11 +158,12 @@
                 android:layout_marginRight="25dp"
                 android:background="@color/colorPrimary"
                 android:text="Register"
+                android:onClick="onRegister"
                 android:textColor="@color/colorAccent"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinner" />
+                app:layout_constraintTop_toBottomOf="@id/textInputLayoutCity" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

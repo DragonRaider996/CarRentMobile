@@ -80,6 +80,16 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
+    <ProgressBar
+        android:id="@+id/progressBarLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="@id/btnLogin"
+        app:layout_constraintTop_toTopOf="@id/btnLogin"
+        app:layout_constraintBottom_toBottomOf="@id/btnLogin"
+        app:layout_constraintRight_toRightOf="@id/btnLogin"
+        android:padding="10dp"/>
+
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="0dp"

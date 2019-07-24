@@ -7,189 +7,192 @@
     android:fitsSystemWindows="true"
     tools:context=".CarDetailActivity">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:id="@+id/appBarCarDetail">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:id="@+id/appBarCarDetail">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsingToolbarCarDetail"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarCarDetail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleTextAppearance="@style/AppBar"
+            app:collapsedTitleTextAppearance="@style/AppBarCollapsed"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/imageCarDetail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleMarginEnd="64dp"
-                app:expandedTitleMarginStart="48dp"
-                app:expandedTitleTextAppearance="@style/AppBar"
-                app:collapsedTitleTextAppearance="@style/AppBarCollapsed"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                android:scaleType="centerCrop"
+                android:src="@drawable/image"
+                app:layout_collapseMode="parallax" />
 
-                <ImageView
-                    android:id="@+id/imageCarDetail"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/image"
-                    app:layout_collapseMode="parallax" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbarCarDetail"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+                app:title="Car Model"
+                app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+                app:titleTextColor="@color/colorWhite" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbarCarDetail"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-                    app:title="Car Model"
-                    app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
-                    app:titleTextColor="@color/colorWhite" />
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        </com.google.android.material.appbar.AppBarLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.core.widget.NestedScrollView
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
+            android:paddingBottom="80dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="80dp">
+                android:layout_margin="10dp"
+                app:layout_constraintLeft_toLeftOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardViewCarDescription"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    app:layout_constraintLeft_toLeftOf="parent">
+                    android:padding="10dp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardViewCarDescription"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_margin="10dp"
-                        android:padding="10dp"
-                        app:cardUseCompatPadding="true"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Car Description"
+                            android:textSize="18sp" />
+
+                        <View
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="0.5dp"
                             android:layout_margin="10dp"
-                            android:orientation="vertical">
+                            android:background="#E0E0E0" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Car Description"
-                                android:textSize="18sp" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="0.5dp"
-                                android:layout_margin="10dp"
-                                android:background="#E0E0E0" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="A lot of description" />
-                        </LinearLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="A lot of description"
+                            android:id="@+id/textViewCarDetailDescription"/>
+                    </LinearLayout>
 
 
-                    </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardViewContactOwner"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardViewContactOwner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:padding="10dp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cardViewCarDescription">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_margin="10dp"
-                        android:padding="10dp"
-                        app:cardUseCompatPadding="true"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cardViewCarDescription">
+                        android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Contact Owner"
+                            android:textSize="18sp" />
+
+                        <View
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="0.5dp"
                             android:layout_margin="10dp"
-                            android:orientation="vertical">
+                            android:background="#E0E0E0" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Contact Owner"
-                                android:textSize="18sp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="9099098765" />
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="0.5dp"
-                                android:layout_margin="10dp"
-                                android:background="#E0E0E0" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="9099098765" />
-
-                        </LinearLayout>
+                    </LinearLayout>
 
 
-                    </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardViewContactRating"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardViewLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:padding="10dp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cardViewContactOwner">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_margin="10dp"
-                        android:padding="10dp"
-                        app:cardUseCompatPadding="true"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cardViewContactOwner">
+                        android:orientation="vertical"
+                        android:paddingBottom="10dp">
 
-                        <LinearLayout
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Location"
+                            android:textSize="18sp" />
+
+                        <View
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="0.5dp"
                             android:layout_margin="10dp"
-                            android:orientation="vertical">
+                            android:background="#E0E0E0" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Location"
-                                android:textSize="18sp" />
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:id="@+id/imageViewMaps"
+                            android:scaleType="fitXY"/>
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="0.5dp"
-                                android:layout_margin="10dp"
-                                android:background="#E0E0E0" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Click to view it on the map" />
-
-                        </LinearLayout>
+                    </LinearLayout>
 
 
-                    </androidx.cardview.widget.CardView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
+                </androidx.cardview.widget.CardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.core.widget.NestedScrollView>
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:text="Book Now"
-            android:textColor="@color/colorAccent"
-            android:id="@+id/buttonCarDetail"
-            android:layout_gravity="bottom" />
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:text="Book Now"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/buttonCarDetail"
+        android:layout_gravity="bottom" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

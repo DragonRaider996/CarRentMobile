@@ -4,24 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CarResultActivity">
+    tools:context=".ListedCarActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarCarResult"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Car Results"
+        android:background="@color/colorPrimary"
         app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
+        app:title="Listed Car"
+        android:id="@+id/toolbarListedCar"
         app:titleTextColor="@color/colorWhite">
 
     </androidx.appcompat.widget.Toolbar>
 
     <ProgressBar
-        android:id="@+id/progressBarCarResult"
+        android:id="@+id/progressBarListedCar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="?android:progressBarStyleLarge"
@@ -31,13 +31,13 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCarResult"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarCarResult">
+        android:id="@+id/recyclerViewListedCar"
+        app:layout_constraintTop_toBottomOf="@id/toolbarListedCar"
+        app:layout_constraintBottom_toBottomOf="parent">
 
     </androidx.recyclerview.widget.RecyclerView>
 
