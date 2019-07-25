@@ -1,7 +1,8 @@
-package com.mc.carrent;
+package com.mc.carrent.models;
 
 import java.io.Serializable;
 
+//Car Model
 public class Car implements Serializable {
 
     private int id;

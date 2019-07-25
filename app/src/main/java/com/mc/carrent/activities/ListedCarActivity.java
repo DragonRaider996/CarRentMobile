@@ -1,4 +1,4 @@
-package com.mc.carrent;
+package com.mc.carrent.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,6 +20,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.mc.carrent.R;
+import com.mc.carrent.SingletonRequest;
+import com.mc.carrent.models.Url;
+import com.mc.carrent.adapters.ListedCarRecyclerViewAdapter;
+import com.mc.carrent.models.Car;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,18 +69,11 @@ public class ListedCarActivity extends AppCompatActivity {
 
     }
 
+    //Will fetch the details from the server.
     private ArrayList<Car> getCarList() {
-        ArrayList<Car> carArrayList = new ArrayList<>();
-//        Car car = new Car("Model 1", 4.5, 23, 44.647491, -63.576211);
-//        Car car1 = new Car("Model 2", 4.5, 25, 44.649093, -63.573144);
-//        Car car2 = new Car("Model 3", 3.5, 33, 44.649460, -63.578699);
-//        Car car3 = new Car("Model 4", 2.5, 44, 44.640613, -63.582478);
-//        carArrayList.add(car);
-//        carArrayList.add(car1);
-//        carArrayList.add(car2);
-//        carArrayList.add(car3);
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Login", MODE_PRIVATE);
 
+        //Fetching the user id stored.
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("LoginActivity", MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", null);
 
         String url = Url.bookingUrl + userId;
@@ -147,6 +145,7 @@ public class ListedCarActivity extends AppCompatActivity {
 
     }
 
+    //Removing the listed cars
     public void removeListedCar(int position){
         this.carArrayList.remove(position);
         recyclerViewAdapter.setData(carArrayList);

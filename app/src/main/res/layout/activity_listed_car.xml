@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListedCarActivity">
+    tools:context=".activities.ListedCarActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="0dp"
@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/colorPrimary"
         app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
-        app:title="Listed Car"
+        app:title="@string/listed_vehicle"
         android:id="@+id/toolbarListedCar"
         app:titleTextColor="@color/colorWhite">
 

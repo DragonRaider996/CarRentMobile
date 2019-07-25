@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BookingHistoryActivity">
+    tools:context=".activities.BookingHistoryActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarBooking"
@@ -15,7 +15,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
-        app:title="Booking History"
+        app:title="@string/bookingToolbar"
         app:titleTextColor="@color/colorWhite">
 
     </androidx.appcompat.widget.Toolbar>
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:focusableInTouchMode="true"
-                android:text="Currently Booked Cars"
+                android:text="@string/currentlyBooked"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Previously Booked Cars"
+                android:text="@string/previouslyBooked"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recyclerViewCurrentBooking" />
 

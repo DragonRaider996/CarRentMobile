@@ -1,4 +1,4 @@
-package com.mc.carrent;
+package com.mc.carrent.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,9 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.mc.carrent.R;
+import com.mc.carrent.fragments.HomeFragment;
+import com.mc.carrent.fragments.ProfileFragment;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
@@ -27,6 +30,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
 
+    //will load the fragment based on the navigation item selected.
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment;

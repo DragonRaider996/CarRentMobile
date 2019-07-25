@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Register">
+    tools:context=".activities.RegisterActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarRegister"
@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="20dp"
-                    android:hint="Enter your Name"
+                    android:hint="@string/name"
                     android:inputType="text"
                     android:lines="1"
                     android:maxLines="1" />
@@ -71,7 +71,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="20dp"
-                    android:hint="Enter your Email"
+                    android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:lines="1"
                     android:maxLines="1" />
@@ -94,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="20dp"
-                    android:hint="Enter your Password"
+                    android:hint="@string/password"
                     android:inputType="textPassword"
                     android:lines="1"
                     android:maxLines="1" />
@@ -117,7 +117,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="20dp"
-                    android:hint="Enter your contact Number"
+                    android:hint="@string/contact"
                     android:inputType="number"
                     android:lines="1"
                     android:maxLines="1" />
@@ -130,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 style="@style/TextAppearance"
-                android:hint="Select a city"
+                android:hint="@string/city"
                 app:hintTextColor="@color/colorAccent"
                 android:outlineAmbientShadowColor="@color/colorAccent"
                 android:outlineSpotShadowColor="@color/colorAccent"
@@ -157,7 +157,7 @@
                 android:layout_marginEnd="25dp"
                 android:layout_marginRight="25dp"
                 android:background="@color/colorPrimary"
-                android:text="Register"
+                android:text="@string/register"
                 android:onClick="onRegister"
                 android:textColor="@color/colorAccent"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    tools:context=".activities.LoginActivity">
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="20dp"
-            android:hint="Enter Email"
+            android:hint="@string/email"
             android:maxLines="1"
             android:inputType="textEmailAddress" />
 
@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="20dp"
-            android:hint="Enter Password"
+            android:hint="@string/password"
             android:maxLines="1"
             android:inputType="textPassword" />
 
@@ -98,7 +98,7 @@
         app:layout_constraintTop_toBottomOf="@id/textInputLayoutLoginPassword"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="Login"
+        android:text="@string/login"
         android:onClick="onLogin"
         android:textColor="@color/colorAccent"
         android:layout_marginTop="20dp"
@@ -113,6 +113,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/textViewLogin"
         android:text="@string/signup"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

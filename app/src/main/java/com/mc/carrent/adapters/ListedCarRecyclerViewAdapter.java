@@ -1,7 +1,6 @@
-package com.mc.carrent;
+package com.mc.carrent.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,28 +11,32 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.mc.carrent.models.Car;
+import com.mc.carrent.activities.ListedCarActivity;
+import com.mc.carrent.R;
+import com.mc.carrent.SingletonRequest;
 
 import java.util.ArrayList;
 
-public class PreviousBookingRecyclerViewAdapter extends RecyclerView.Adapter<PreviousBookingRecyclerViewAdapter.ViewHolder>{
+public class ListedCarRecyclerViewAdapter extends RecyclerView.Adapter<ListedCarRecyclerViewAdapter.ViewHolder>{
 
     private Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<Car> carList;
 
-    public PreviousBookingRecyclerViewAdapter(Context context, ArrayList<Car> carList) {
+    public ListedCarRecyclerViewAdapter(Context context, ArrayList<Car> carList) {
         this.context = context;
         this.carList = carList;
         layoutInflater = LayoutInflater.from(context);
     }
 
+    //Setting the data to display in the recycler view
     public void setData(ArrayList<Car> carList){
         this.carList = carList;
         notifyItemRangeChanged(0,carList.size());
@@ -52,20 +55,21 @@ public class PreviousBookingRecyclerViewAdapter extends RecyclerView.Adapter<Pre
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Car car = this.carList.get(position);
         String carPrice = "Price : " + car.getPrice() + "/day";
-        String carRating = "Rating :" + car.getCarRating();
+        String carRating = "Rating : " + car.getCarRating();
         String imageUrl = car.getUrl();
-        boolean rated = false;
-        rated = car.isRated();
-        if(rated){
-            holder.buttonCancel.setText("Car Rated");
-            holder.buttonCancel.setTextColor(ContextCompat.getColor(context,R.color.colorBlack));
-            holder.buttonCancel.setEnabled(false);
-        }else{
-            holder.buttonCancel.setText("Rate the car");
-        }
         holder.textViewPrice.setText(carPrice);
         holder.textViewModel.setText(car.getCarModel());
         holder.textViewStar.setText(carRating);
+
+        //passing the button handling to the activity
+        holder.buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ListedCarActivity)context).removeListedCar(position);
+            }
+        });
+
+        //setting image
         final ImageLoader imageLoader = SingletonRequest.getInstance(context.getApplicationContext()).getImageLoader();
         imageLoader.get(imageUrl, new ImageLoader.ImageListener() {
             @Override
@@ -80,13 +84,6 @@ public class PreviousBookingRecyclerViewAdapter extends RecyclerView.Adapter<Pre
                     Log.i("Error",error.toString());
                     Toast.makeText(context, "Error in Image", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-
-        holder.buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((BookingHistoryActivity) context).setRating(position);
             }
         });
     }
@@ -109,8 +106,7 @@ public class PreviousBookingRecyclerViewAdapter extends RecyclerView.Adapter<Pre
             textViewStar = itemView.findViewById(R.id.textViewStar);
             textViewPrice = itemView.findViewById(R.id.textViewCarPrice);
             buttonCancel = itemView.findViewById(R.id.btnSingleRow);
-
-
+            buttonCancel.setText("Remove");
         }
     }
 }

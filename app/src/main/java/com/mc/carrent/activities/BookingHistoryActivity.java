@@ -1,10 +1,9 @@
-package com.mc.carrent;
+package com.mc.carrent.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +19,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.mc.carrent.R;
+import com.mc.carrent.SingletonRequest;
+import com.mc.carrent.models.Url;
+import com.mc.carrent.adapters.CurrentBookingRecyclerViewAdapter;
+import com.mc.carrent.adapters.PreviousBookingRecyclerViewAdapter;
+import com.mc.carrent.models.Car;
 import com.stepstone.apprating.AppRatingDialog;
 import com.stepstone.apprating.listener.RatingDialogListener;
 
@@ -47,7 +52,7 @@ public class BookingHistoryActivity extends AppCompatActivity implements RatingD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_history);
-
+        //Fetch the details from the intent
         from = getIntent().getStringExtra("from");
         to = getIntent().getStringExtra("to");
         car = (Car) getIntent().getSerializableExtra("car");
@@ -64,6 +69,7 @@ public class BookingHistoryActivity extends AppCompatActivity implements RatingD
                 onBackPressed();
             }
         });
+
 
         currentBookingRecyclerView = findViewById(R.id.recyclerViewCurrentBooking);
         previousBookingRecyclerView = findViewById(R.id.recyclerViewPreviousBooking);
@@ -83,22 +89,12 @@ public class BookingHistoryActivity extends AppCompatActivity implements RatingD
     }
 
     private ArrayList<Car> getCarList() {
-//        Car car = new Car("Model 1", 4.5, 23, 44.647491, -63.576211);
-//        Car car1 = new Car("Model 2", 4.5, 25, 44.649093, -63.573144);
-//        Car car2 = new Car("Model 3", 3.5, 33, 44.649460, -63.578699);
-//        Car car3 = new Car("Model 4", 2.5, 44, 44.640613, -63.582478);
-//        carCurrentArrayList.add(car);
-//        carCurrentArrayList.add(car1);
-//        carCurrentArrayList.add(car2);
-//        carCurrentArrayList.add(car3);
-
-
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Login", MODE_PRIVATE);
-
+        //Will fetch the user id from the sharedpreferences.
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("LoginActivity", MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId",null);
-
         String url = Url.bookingUrl+userId;
 
+        //Will fetch a jsonarray request.
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -131,6 +127,7 @@ public class BookingHistoryActivity extends AppCompatActivity implements RatingD
                     previousCarList.add(car);
 
                 }
+                //After fetching the data updating the recyclerview.
                 previousBookingRecyclerViewAdapter.setData(previousCarList);
 
             }
@@ -161,7 +158,7 @@ public class BookingHistoryActivity extends AppCompatActivity implements RatingD
         return previousCarList;
 
     }
-
+    //To allow the user to rate the vehicle
     public void setRating(int position){
         this.carPosition = position;
         new AppRatingDialog.Builder()
@@ -178,6 +175,7 @@ public class BookingHistoryActivity extends AppCompatActivity implements RatingD
                 .show();
     }
 
+    // To allow the user to remove the booked vehicle
     public void removeBooking(int position){
         this.carCurrentArrayList.remove(position);
         currentBookingRecyclerViewAdapter.setData(carCurrentArrayList);
@@ -202,6 +200,6 @@ public class BookingHistoryActivity extends AppCompatActivity implements RatingD
 
         previousBookingRecyclerViewAdapter.setData(previousCarList);
 
-        Toast.makeText(this, "You rated :"+i+" Car id: "+ previousCarList.get(carPosition).getId(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "You rated Car: "+ i, Toast.LENGTH_SHORT).show();
     }
 }

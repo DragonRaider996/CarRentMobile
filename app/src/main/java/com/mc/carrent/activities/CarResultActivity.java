@@ -1,6 +1,7 @@
-package com.mc.carrent;
+package com.mc.carrent.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,6 +33,11 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.mc.carrent.R;
+import com.mc.carrent.SingletonRequest;
+import com.mc.carrent.models.Url;
+import com.mc.carrent.adapters.CarResultRecyclerViewAdapter;
+import com.mc.carrent.models.Car;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,10 +60,11 @@ public class CarResultActivity extends AppCompatActivity {
     private int index = 0;
     private int MY_PERMISSION_ACCESS_COARSE_LOCATION = 100;
     private FusedLocationProviderClient fusedLocationClient;
-    private double latitude,longitude;
+    private double latitude, longitude;
     private ProgressBar progressBar;
-    private String from = null,to = null;
+    private String from = null, to = null;
     private ArrayList<Car> carArrayList;
+    private String vehicle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +72,12 @@ public class CarResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_car_result);
         from = getIntent().getStringExtra("from");
         to = getIntent().getStringExtra("to");
+        vehicle = getIntent().getStringExtra("vehicle");
+
         recyclerView = findViewById(R.id.recyclerViewCarResult);
         toolbar = findViewById(R.id.toolbarCarResult);
         progressBar = findViewById(R.id.progressBarCarResult);
+
         setSupportActionBar(toolbar);
         carArrayList = new ArrayList<>();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -77,23 +87,18 @@ public class CarResultActivity extends AppCompatActivity {
             }
         });
 
+        //Checking for location permission.
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     this,
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                     MY_PERMISSION_ACCESS_COARSE_LOCATION
             );
+        }else{
+            getLocation();
         }
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-                Toast.makeText(CarResultActivity.this, String.valueOf(latitude)+","+String.valueOf(longitude), Toast.LENGTH_SHORT).show();
-            }
-        });
+
         ArrayList<Car> carArrayList = getCarList();
         recyclerViewAdapter = new CarResultRecyclerViewAdapter(this, carArrayList);
         recyclerView.setAdapter(recyclerViewAdapter);
@@ -101,29 +106,45 @@ public class CarResultActivity extends AppCompatActivity {
 
     }
 
+    //Will fetch the current position.
+    @SuppressLint("MissingPermission")
+    public void getLocation() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+                //Toast.makeText(CarResultActivity.this, String.valueOf(latitude) + "," + String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == MY_PERMISSION_ACCESS_COARSE_LOCATION) {
             Toast.makeText(this, "Granted", Toast.LENGTH_SHORT).show();
+            getLocation();
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    //Fetch data from the server
     private ArrayList<Car> getCarList() {
-//        Car car = new Car(1,"Model 1", 4.5, 23, 44.647491, -63.576211);
-//        Car car1 = new Car(2,"Model 2", 4.5, 25, 44.649093, -63.573144);
-//        Car car2 = new Car(3,"Model 3", 3.5, 33, 44.649460, -63.578699);
-//        Car car3 = new Car(4,"Model 4", 2.5, 44, 44.640613, -63.582478);
-//        carArrayList.add(car);
-//        carArrayList.add(car1);
-//        carArrayList.add(car2);
-//        carArrayList.add(car3);
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Login", MODE_PRIVATE);
+        //Fetching the user id stored.
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("LoginActivity", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", null);
 
-        String userId = sharedPreferences.getString("userId",null);
-
-        String url = Url.fetchCarUrl+userId;
+        String url = "";
+        //Changing the url based on the selected vehicle type.
+        if (vehicle.equals("Car")) {
+            url = Url.fetchCarUrl + userId;
+        } else if (vehicle.equals("Boat")) {
+            url = Url.fetchBoatUrl + userId;
+        } else {
+            url = Url.fetchBikeUrl + userId;
+        }
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -131,8 +152,8 @@ public class CarResultActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.INVISIBLE);
                 JSONObject object = new JSONObject();
                 int id = 0;
-                String carModel="", carDescription="", imageUrl="";
-                double price= 0, latitude = 0, longitude = 0;
+                String carModel = "", carDescription = "", imageUrl = "";
+                double price = 0, latitude = 0, longitude = 0;
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         object = response.getJSONObject(i);
@@ -153,10 +174,11 @@ public class CarResultActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    Car car = new Car(id,carModel,4.5,price,latitude,longitude,imageUrl,carDescription);
+                    Car car = new Car(id, carModel, 4.5, price, latitude, longitude, imageUrl, carDescription);
                     carArrayList.add(car);
 
                 }
+                //Updating the recyclerview.
                 recyclerViewAdapter.setData(carArrayList);
 
             }
@@ -186,21 +208,23 @@ public class CarResultActivity extends AppCompatActivity {
         return carArrayList;
     }
 
-    public void bookNow(int position){
+    //Handle the booknow click
+    public void bookNow(int position) {
         Car car = carArrayList.get(position);
-        Intent intent = new Intent(this,BookingHistoryActivity.class);
+        Intent intent = new Intent(this, BookingHistoryActivity.class);
         intent.putExtra("car", (Serializable) car);
-        intent.putExtra("from",from);
-        intent.putExtra("to",to);
+        intent.putExtra("from", from);
+        intent.putExtra("to", to);
         startActivity(intent);
     }
 
-    public void cardViewClick(int position){
+    //Handle the card Click
+    public void cardViewClick(int position) {
         Car car = carArrayList.get(position);
         Intent intent = new Intent(this, CarDetailActivity.class);
         intent.putExtra("car", (Serializable) car);
-        intent.putExtra("from",from);
-        intent.putExtra("to",to);
+        intent.putExtra("from", from);
+        intent.putExtra("to", to);
         startActivity(intent);
     }
 
@@ -213,7 +237,7 @@ public class CarResultActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.sort) {
+        if (item.getItemId() == R.id.sort) {
             MaterialDialog dialog;
             MaterialDialog.Builder builder = new MaterialDialog.Builder(this);
             builder.setTitle("Sort By");
@@ -236,41 +260,45 @@ public class CarResultActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    public void sortData(int position){
-        if(position == 0){
+    //sorting the data.
+    public void sortData(int position) {
+        //sorting based on the price
+        if (position == 0) {
             Collections.sort(this.carArrayList, new Comparator<Car>() {
                 @Override
                 public int compare(Car o1, Car o2) {
-                    if(o1.getPrice() > o2.getPrice()){
+                    if (o1.getPrice() > o2.getPrice()) {
                         return 1;
-                    }else{
+                    } else {
                         return -1;
                     }
                 }
             });
             recyclerViewAdapter.setData(carArrayList);
-        }else if(position == 1){
+        } else if (position == 1) {
+            //sorting based on location
             ArrayList<Integer> distances = getDistances();
             Collections.sort(this.carArrayList, new Comparator<Car>() {
                 @Override
                 public int compare(Car o1, Car o2) {
                     int index1 = carArrayList.indexOf(o1);
                     int index2 = carArrayList.indexOf(o2);
-                    if(distances.get(index1) >= distances.get(index2)){
+                    if (distances.get(index1) >= distances.get(index2)) {
                         return -1;
-                    }else{
+                    } else {
                         return 1;
                     }
                 }
             });
             recyclerViewAdapter.setData(carArrayList);
-        }else{
+        } else {
+            //sorting based on rating
             Collections.sort(this.carArrayList, new Comparator<Car>() {
                 @Override
                 public int compare(Car o1, Car o2) {
-                    if(o1.getCarRating() > o2.getCarRating()){
+                    if (o1.getCarRating() > o2.getCarRating()) {
                         return 1;
-                    }else{
+                    } else {
                         return -1;
                     }
                 }
@@ -279,9 +307,10 @@ public class CarResultActivity extends AppCompatActivity {
         }
     }
 
-    public ArrayList<Integer> getDistances(){
+    //will compare the current location with the location of the cars.
+    public ArrayList<Integer> getDistances() {
         ArrayList<Integer> distances = new ArrayList<>();
-        for(int i=0; i<this.carArrayList.size();i++){
+        for (int i = 0; i < this.carArrayList.size(); i++) {
             Car car = this.carArrayList.get(i);
             double carLat = car.getLat();
             double carLong = car.getLng();

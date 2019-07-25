@@ -10,6 +10,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
 
+//For making volley requests
 public class SingletonRequest {
 
     private static SingletonRequest singletonRequest;

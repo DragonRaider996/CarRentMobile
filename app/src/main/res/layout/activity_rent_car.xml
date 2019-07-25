@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RentCarActivity">
+    tools:context=".activities.RentCarActivity"
+    android:focusableInTouchMode="true">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarRentCar"
@@ -15,7 +16,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
-        app:title="Rent a Car"
+        app:title="Rent a Vehicle"
         app:titleTextColor="@color/colorWhite">
 
     </androidx.appcompat.widget.Toolbar>
@@ -33,23 +34,50 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputVehicleDropdownRent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                style="@style/TextAppearance"
+                android:hint="@string/vehicle"
+                app:hintTextColor="@color/colorAccent"
+                android:outlineAmbientShadowColor="@color/colorAccent"
+                android:outlineSpotShadowColor="@color/colorAccent"
+                app:boxStrokeColor="@color/colorAccent"
+                app:helperTextTextColor="@color/colorAccent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <AutoCompleteTextView
+                    android:id="@+id/autoCompleteTextViewVehicleRent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutCarModel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="15dp"
-                android:hint="Enter Car Model"
+                android:hint="@string/vehicle_model"
                 app:counterMaxLength="50"
                 app:counterEnabled="true"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/textInputVehicleDropdownRent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textInputEditCarModel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:inputType="text"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -62,7 +90,7 @@
                 android:layout_marginRight="15dp"
                 app:counterMaxLength="250"
                 app:counterEnabled="true"
-                android:hint="Enter Car Description"
+                android:hint="@string/vehicle_description"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayoutCarModel">
 
@@ -71,8 +99,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top|start"
-                    android:maxLines="8"
-                    android:minLines="8" />
+                    android:maxLines="4"
+                    android:minLines="4" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +113,7 @@
                 android:layout_marginRight="15dp"
                 app:counterMaxLength="5"
                 app:counterEnabled="true"
-                android:hint="Enter Car Price"
+                android:hint="@string/vehicle_price"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayoutCarDescription">
 
@@ -106,7 +134,7 @@
                 android:layout_marginRight="15dp"
                 android:drawableStart="@drawable/ic_camera_alt_black_24dp"
                 android:onClick="clickPictures"
-                android:text="Select Image for Car"
+                android:text="@string/vehicle_image"
                 android:textColor="@color/colorWhite"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -128,7 +156,7 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="25dp"
-                android:text="Submit"
+                android:text="@string/submit"
                 android:onClick="onSubmit"
                 android:textColor="@color/colorAccent"
                 app:layout_constraintLeft_toLeftOf="parent"
