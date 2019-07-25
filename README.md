@@ -38,18 +38,18 @@ The admin will verify the posts and blocklist any of the vehicle posts is not ap
 ### Features
 
 * **Rent a vehicle**
-&nbsp; + Register/Login 
-&nbsp; + Search for the vehicle to rent
-&nbsp; + Book the vehicle 
-&nbsp; + Contact Owner
-&nbsp; + Rate the vehicle
+- Register/Login 
+- Search for the vehicle to rent
+- Book the vehicle 
+- Contact Owner
+- Rate the vehicle
 * **Put vehicle on rent**
-&nbsp; + Register/Login
-&nbsp; + Post vehicle with Images
+- Register/Login
+- Post vehicle with Images
 * **Admin**
-&nbsp; + Check the list of all vehicles
-&nbsp; + Approve or Reject the vehicle
-&nbsp; + Blacklist the currently listed vehicles
+- Check the list of all vehicles
+- Approve or Reject the vehicle
+- Blacklist the currently listed vehicles
 
 
 
