@@ -1,4 +1,4 @@
-package com.mc.carrent;
+package com.mc.carrent.activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -22,6 +22,9 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.mc.carrent.R;
+import com.mc.carrent.SingletonRequest;
+import com.mc.carrent.models.Car;
 
 public class CarDetailActivity extends AppCompatActivity {
 
@@ -42,18 +45,29 @@ public class CarDetailActivity extends AppCompatActivity {
         from = getIntent().getStringExtra("from");
         to = getIntent().getStringExtra("to");
         car = (Car) getIntent().getSerializableExtra("car");
+
         toolbar = findViewById(R.id.toolbarCarDetail);
         cardViewPhone = findViewById(R.id.cardViewContactOwner);
         cardViewLocation = findViewById(R.id.cardViewLocation);
         imageView = findViewById(R.id.imageCarDetail);
         imageViewMaps = findViewById(R.id.imageViewMaps);
         textViewCarDescription = findViewById(R.id.textViewCarDetailDescription);
+
+        collapsingToolbarLayout = findViewById(R.id.collapsingToolbarCarDetail);
+        toolbar.setTitle(car.getCarModel());
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         String url = car.getUrl();
         latitude = car.getLat();
         longitude = car.getLng();
         String imageUrl = "https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=600x300&maptype=roadmap&markers=color:blue|label:S|"+latitude+","+longitude+"&key=AIzaSyBloNDTRp1RYXiR5GSglDZ5ki0ypDbf-0o";
-        Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
 
+        //This will load the image for the location view from google api.
         final ImageLoader imageLoader1 = SingletonRequest.getInstance(this.getApplicationContext()).getImageLoader();
         imageLoader1.get(imageUrl, new ImageLoader.ImageListener() {
             @Override
@@ -71,7 +85,7 @@ public class CarDetailActivity extends AppCompatActivity {
             }
         });
 
-
+        //This will load the image for the collapsing toolbar.
         final ImageLoader imageLoader = SingletonRequest.getInstance(this.getApplicationContext()).getImageLoader();
         imageLoader.get(url, new ImageLoader.ImageListener() {
             @Override
@@ -88,11 +102,9 @@ public class CarDetailActivity extends AppCompatActivity {
                 }
             }
         });
-
         textViewCarDescription.setText(car.getCarDescription());
 
-        collapsingToolbarLayout = findViewById(R.id.collapsingToolbarCarDetail);
-        setSupportActionBar(toolbar);
+        //Checking for permission for calling.
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     this,
@@ -100,14 +112,9 @@ public class CarDetailActivity extends AppCompatActivity {
                     MY_CALL_PERMISSION
             );
         }
-        toolbar.setTitle(car.getCarModel());
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
 
+
+        //Handling the contact owner card click
         cardViewPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,13 +125,13 @@ public class CarDetailActivity extends AppCompatActivity {
             }
         });
 
+        //Handling the location card click
         cardViewLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                         Uri.parse("http://maps.google.com/maps?daddr="+String.valueOf(latitude)+","+String.valueOf(longitude)));
                 startActivity(intent);
-                // AIzaSyBloNDTRp1RYXiR5GSglDZ5ki0ypDbf-0o
             }
         });
 
@@ -138,6 +145,7 @@ public class CarDetailActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    //Handling book now button click
     public void bookNow(View view){
         Intent intent = new Intent(this,BookingHistoryActivity.class);
         intent.putExtra("car",car);

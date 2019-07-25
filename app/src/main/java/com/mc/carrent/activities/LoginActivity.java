@@ -1,10 +1,11 @@
-package com.mc.carrent;
+package com.mc.carrent.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mc.carrent.R;
+import com.mc.carrent.SingletonRequest;
+import com.mc.carrent.models.Url;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,11 +30,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private TextInputLayout textInputLayoutEmail, textInputLayoutPassword;
     private ProgressBar progressBar;
     private MaterialButton materialButton;
+    private TextView textViewRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +45,21 @@ public class Login extends AppCompatActivity {
         textInputLayoutPassword = findViewById(R.id.textInputLayoutLoginPassword);
         materialButton = findViewById(R.id.btnLogin);
         progressBar = findViewById(R.id.progressBarLogin);
+        textViewRegister = findViewById(R.id.textViewLogin);
         progressBar.setVisibility(View.INVISIBLE);
     }
 
+    //Handling on register click
     public void onRegister(View view) {
-        Intent intent = new Intent(this, Register.class);
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
+    //Handling on login click
     public void onLogin(View view) {
         int flag = 0;
+
+        textViewRegister.setEnabled(false);
 
         String email = textInputLayoutEmail.getEditText().getText().toString().trim();
         String password = textInputLayoutPassword.getEditText().getText().toString().trim();
@@ -71,11 +81,13 @@ public class Login extends AppCompatActivity {
             textInputLayoutPassword.setError("Please enter a valid password");
         }
 
+        //If all validations pass
         if (flag == 2) {
             progressBar.setVisibility(View.VISIBLE);
             materialButton.setText("");
             materialButton.setEnabled(false);
 
+            //Making a post request for login
             Map<String, String> requ = new HashMap<String, String>();
             requ.put("email", email);
             requ.put("password", password);
@@ -89,23 +101,26 @@ public class Login extends AppCompatActivity {
                         String userId = response.getString("userId");
                         String email = response.getString("email");
 
-                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Login", MODE_PRIVATE);
+                        //Storing the user details in the shared preference.
+                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("LoginActivity", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("userId", userId);
                         editor.putString("email", email);
-                        editor.commit();
+                        editor.apply();
 
                         progressBar.setVisibility(View.INVISIBLE);
                         materialButton.setText("Login");
                         materialButton.setEnabled(true);
-                        Intent intent = new Intent(Login.this, HomeActivity.class);
+                        textViewRegister.setEnabled(true);
+
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
-                    Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
                 }
             }, new Response.ErrorListener() {
@@ -113,18 +128,21 @@ public class Login extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
 
                     if (error instanceof NetworkError || error instanceof NoConnectionError) {
-                        Toast.makeText(Login.this, "Please Check your Internet Connection!!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Please Check your Internet Connection!!!", Toast.LENGTH_SHORT).show();
                         progressBar.setVisibility(View.INVISIBLE);
                         materialButton.setText("Login");
                         materialButton.setEnabled(true);
+                        textViewRegister.setEnabled(true);
 
                     } else {
                         String statuscode = String.valueOf(error.networkResponse.statusCode);
+                        //Handling invalid login credentials
                         if (statuscode.equals("401")) {
-                            Toast.makeText(Login.this, "Invalid Credentials", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Invalid Credentials", Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.INVISIBLE);
                             materialButton.setText("Login");
                             materialButton.setEnabled(true);
+                            textViewRegister.setEnabled(true);
                         }
                     }
 
@@ -145,19 +163,36 @@ public class Login extends AppCompatActivity {
     }
 
 
+    //Validating email
     private boolean validateEmail(String email) {
         if (email.isEmpty() || email.length() > 50) {
+            return false;
+        } else {
+            return isValidEmail(email);
+        }
+    }
+
+    //Validating password
+    private boolean validatePassword(String password) {
+        if (password.isEmpty() || password.length() > 50) {
             return false;
         } else {
             return true;
         }
     }
 
-    private boolean validatePassword(String password) {
-        if (password.isEmpty() || password.length() > 50) {
+    //Validating email string
+    private boolean isValidEmail(String email) {
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        if (email.isEmpty()) {
             return false;
         } else {
-            return true;
+            if (email.matches(emailPattern)) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 

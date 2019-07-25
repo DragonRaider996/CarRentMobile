@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".CarDetailActivity">
+    tools:context=".activities.CarDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-                app:title="Car Model"
+                app:title=""
                 app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
                 app:titleTextColor="@color/colorWhite" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -82,7 +82,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Car Description"
+                            android:text="@string/carDescription"
                             android:textSize="18sp" />
 
                         <View
@@ -94,7 +94,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="A lot of description"
+                            android:text=""
                             android:id="@+id/textViewCarDetailDescription"/>
                     </LinearLayout>
 
@@ -120,7 +120,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Contact Owner"
+                            android:text="@string/contact_owner"
                             android:textSize="18sp" />
 
                         <View
@@ -132,7 +132,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="9099098765" />
+                            android:text="@string/number" />
 
                     </LinearLayout>
 
@@ -159,7 +159,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Location"
+                            android:text="@string/location"
                             android:textSize="18sp" />
 
                         <View
@@ -190,7 +190,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:text="Book Now"
+        android:text="@string/book_now"
         android:textColor="@color/colorAccent"
         android:id="@+id/buttonCarDetail"
         android:layout_gravity="bottom"

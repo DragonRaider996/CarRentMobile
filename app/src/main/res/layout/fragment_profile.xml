@@ -73,7 +73,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
                         android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-                        android:text="Booking History"
+                        android:text="@string/booking_history"
                         android:textColor="@color/colorBlack"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -94,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
                         android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-                        android:text="Rent A Car"
+                        android:text="@string/vehicle_rent"
                         android:textColor="@color/colorBlack"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/viewProfile1" />
@@ -115,7 +115,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
                         android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-                        android:text="Listed Cars"
+                        android:text="@string/listed_vehicle"
                         android:textColor="@color/colorBlack"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/viewProfile2" />
@@ -146,7 +146,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
                         android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-                        android:text="Help"
+                        android:text="@string/help"
                         android:textColor="@color/colorBlack"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -174,7 +174,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="15dp"
                         android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
-                        android:text="Logout"
+                        android:text="@string/logout"
                         android:textColor="@color/colorBlack"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

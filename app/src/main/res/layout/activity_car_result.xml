@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CarResultActivity">
+    tools:context=".activities.CarResultActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarCarResult"
@@ -14,7 +14,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Car Results"
+        app:title="@string/car_results"
         app:navigationIcon="@drawable/ic_arrow_back_black_24dp"
         app:titleTextColor="@color/colorWhite">
 

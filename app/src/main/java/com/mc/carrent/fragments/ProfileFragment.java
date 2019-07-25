@@ -1,6 +1,8 @@
-package com.mc.carrent;
+package com.mc.carrent.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.mc.carrent.activities.BookingHistoryActivity;
+import com.mc.carrent.activities.HelpActivity;
+import com.mc.carrent.activities.ListedCarActivity;
+import com.mc.carrent.activities.LoginActivity;
+import com.mc.carrent.R;
+import com.mc.carrent.activities.RentCarActivity;
 
 public class ProfileFragment extends Fragment {
 
@@ -33,6 +42,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        //handling booking history click
         bookingHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,6 +51,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        //handling listed car click
         listedCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,6 +60,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        //handling help click
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,10 +69,16 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        //handling logout click
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Login.class);
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("LoginActivity", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("userId");
+                editor.remove("email");
+                editor.apply();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
                 getActivity().finish();
             }

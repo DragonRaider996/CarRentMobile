@@ -1,4 +1,4 @@
-package com.mc.carrent;
+package com.mc.carrent.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.mc.carrent.R;
 
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextInputLayout textInputLayoutEmail, textInputLayoutPassword, textInputLayoutName, textInputLayoutContact, textInputLayoutCity;
@@ -37,12 +38,13 @@ public class Register extends AppCompatActivity {
             }
         });
 
-        String[] cities = new String[]{"Halifax", "Dartmouth", "City 3", "City 4"};
+        String[] cities = new String[]{"Halifax", "Dartmouth", "Sydney", "Truro"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.dropdown_city, cities);
 
         autoCompleteTextView.setAdapter(adapter);
     }
 
+    //Handling the register click
     public void onRegister(View view) {
         int flag = 0;
 
@@ -93,17 +95,17 @@ public class Register extends AppCompatActivity {
             flag = flag+1;
         }
 
+        //If all validation passes.
         if(flag == 5){
             Toast.makeText(this, "Registered", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, Login.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             this.finish();
         }
 
-
-
     }
 
+    //Validating email
     private boolean validateEmail(String email) {
         if (email.isEmpty() || email.length() > 50) {
             return false;
@@ -112,6 +114,7 @@ public class Register extends AppCompatActivity {
         }
     }
 
+    //Validating password
     private boolean validatePassword(String password) {
         if (password.isEmpty() || password.length() > 15) {
             return false;
@@ -120,6 +123,7 @@ public class Register extends AppCompatActivity {
         }
     }
 
+    //Validating name
     private boolean validateName(String name) {
         if (name.isEmpty() || name.length() > 30) {
             return false;
@@ -128,6 +132,7 @@ public class Register extends AppCompatActivity {
         }
     }
 
+    //Validating contact
     private boolean validateContact(String contact) {
         if (contact.isEmpty() || contact.length() != 10) {
             return false;
@@ -136,6 +141,7 @@ public class Register extends AppCompatActivity {
         }
     }
 
+    //Validating email string
     private boolean isValidEmail(String email) {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 

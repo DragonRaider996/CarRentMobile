@@ -1,10 +1,12 @@
-package com.mc.carrent;
+package com.mc.carrent.activities;
 
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.mc.carrent.R;
 
 public class HelpActivity extends AppCompatActivity {
 
