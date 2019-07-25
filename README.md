@@ -185,19 +185,23 @@ The below shown sitemap will provide the information organization for the app.
 ## Clickstreams
 ##### **Login Activity:**
 The user will login/Register by following the below steps. If teh user does not have logged in already then he/she needs to first register for the app.
+
 ![Click1](https://user-images.githubusercontent.com/47186638/61838600-6c628480-ae60-11e9-9117-8e55ecf61d76.png)
 
 
 ##### **Searching for the vehicle**
 The user needs to select the City and type of the vehicle along with From and To date and when the user tap on Search, he/she will be redirected to the vehicle result screen.
+
 ![Click2 (1)](https://user-images.githubusercontent.com/47186638/61838611-797f7380-ae60-11e9-987c-5e7f46239a6c.png)
 
 ##### **Booking for the vehicle**
 To book the vehicle, the user needs to click on the "Book Now" button and the vehicle will be added in the "Booking History" which user can see by navigating to the Profile Screen.
+
 ![Click3](https://user-images.githubusercontent.com/47186638/61838793-599c7f80-ae61-11e9-8442-8e3d20fba362.png)
 
 ##### **Put Vehicle on rent**
 To put vehicle on the rent, the user needs to click on "Put Vehicle on Rent" in the Profile screen and below shown screen will appear where the user needs to provide related details and image of the vehicle and when the user clicks on the "Submit", the vehicle will be added to the "Listed Vehicle" section.
+
 ![Click4](https://user-images.githubusercontent.com/47186638/61838935-fc54fe00-ae61-11e9-9653-690f2380a498.png)
 
 
